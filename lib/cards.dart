@@ -9,7 +9,7 @@ var submitBGColor = Colors.amber[50];
 var submitFGColor = Colors.black;
 var textCardColor = Colors.white;
 var quizCardColor = Colors.grey[200];
-var frozenQuizCardColor = Colors.grey[400];
+var frozenQuizCardColor = Colors.grey[300];
 var quizCorrectOption = Colors.lightGreen[300];
 var quizSelectedOption = Colors.grey[600];
 var quizCardElevation = 20.0;
@@ -230,17 +230,21 @@ class _TextCardState extends State<TextCard> {
   }
 }
 
+
 class _ImageCardState extends State<ImageCard> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        // margin: EdgeInsets.all(10),
-        child: Image.network(widget.cardContent.image,
-          height: 300,
-          width: 200
-         ),
-       ),
+    return Card(
+      semanticContainer: true,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      elevation: quizCardElevation,
+      margin: EdgeInsets.all(cardPadding),
+      child:Image.network(widget.cardContent.image,
+        fit: BoxFit.fill,
+      ),
     );
   }
 }
