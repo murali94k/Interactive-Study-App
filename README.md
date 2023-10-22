@@ -1,4 +1,4 @@
-# interactive Study Book App
+# Interactive Study Book App
 
 A new Flutter project from Inquisitive Scholars.
 
