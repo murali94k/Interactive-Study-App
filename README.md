@@ -1,6 +1,6 @@
-# inquisitive_scholars_app
+# interactive Study Book App
 
-A new Flutter project.
+A new Flutter project from Inquisitive Scholars.
 
 ## Getting Started
 
