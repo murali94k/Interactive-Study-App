@@ -1,19 +1,73 @@
 import 'package:flutter/material.dart';
 import 'card_content.dart';
 
-double pageFont = 18.0;
+double pageFont = 17.0;
+double headingFont = 21.0;
 double cardPadding = 10.0;
+
 String textCardFontFamily = "EXo2";
 String quizCardFontFamily = "TiltNeon";
+
 var submitBGColor = Colors.amber[50];
 var submitFGColor = Colors.black;
 var textCardColor = Colors.white;
 var quizCardColor = Colors.grey[200];
 var frozenQuizCardColor = Colors.grey[300];
 var quizCorrectOption = Colors.lightGreen[300];
-var quizSelectedOption = Colors.grey[600];
-var quizCardElevation = 20.0;
+var quizSelectedOption = Colors.grey[400];
 var quizCardShadowColor = Colors.cyan[900];
+
+var quizCardElevation = 0.0;
+
+class HorizontalScrollCard extends StatefulWidget {
+  HorizontalScrollCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index});
+
+  CardContent cardContent;
+  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  int index;
+
+  @override
+  State<HorizontalScrollCard> createState() => _HorizontalScrollCardState();
+}
+
+class _HorizontalScrollCardState extends State<HorizontalScrollCard> {
+  int _index = 1;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 270, // card height
+      child: PageView.builder(
+        itemCount: widget.cardContent.options.length,
+        controller: PageController(viewportFraction: 0.7),
+        onPageChanged: (int index) => setState(() => _index = index),
+        itemBuilder: (_, i) {
+          return Transform.scale(
+            scale: i == _index ? 1 : 0.9,
+            child: Card(
+              elevation: quizCardElevation,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: quizCardElevation,
+                  margin: EdgeInsets.all(cardPadding),
+                  child:Image.network(widget.cardContent.options[i],
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 
 
 class QuizCard extends StatefulWidget {
@@ -121,7 +175,7 @@ class _QuizCardState extends State<QuizCard> {
                   style: TextButton.styleFrom(
                     backgroundColor: submitBGColor,
                     foregroundColor: submitFGColor,
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
                     textStyle: TextStyle(fontSize: pageFont),
                   ),
                   onPressed: () {
@@ -166,6 +220,12 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
 
   @override
   Widget build(BuildContext context) {
+    var resultFontColor = Colors.red[900];
+    String resultText = "Incorrect !";
+    if(widget.cardContent.answer == widget.cardContent.selection){
+      resultFontColor = Colors.green[900];
+      resultText = "Correct !";
+    }
     return Card(
         elevation: quizCardElevation,
         shadowColor: quizCardShadowColor,
@@ -204,8 +264,19 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
                 );
                }).toList()
             ),
+            Container(
+                padding: EdgeInsets.all(cardPadding),
+                child: Text(resultText,
+                    style: TextStyle(
+                        fontFamily: quizCardFontFamily,
+                        fontSize: headingFont,
+                        fontWeight: FontWeight.bold,
+                        color: resultFontColor
+                    )
+                )
+            ),
           ],
-        )
+        ),
     );
   }
 }
@@ -213,8 +284,24 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
 class _TextCardState extends State<TextCard> {
   @override
   Widget build(BuildContext context) {
+    if(widget.cardContent.type==0){ // Heading Text Card
+      return Card(
+          elevation: quizCardElevation,
+          shadowColor: Colors.black,
+          color: textCardColor,
+          child: Container(
+            margin: const EdgeInsets.all(10.0),
+            child: Text(widget.cardContent.text,
+                style: TextStyle(
+                    fontSize: headingFont,
+                    fontWeight: FontWeight.bold
+                )
+            ),
+          )
+      );
+    }
     return Card(
-        elevation: 20,
+        elevation: quizCardElevation,
         shadowColor: Colors.black,
         color: textCardColor,
         child: Container(
@@ -252,7 +339,7 @@ class _ImageCardState extends State<ImageCard> {
 class _MakeCardState extends State<MakeCard> {
   @override
   Widget build(BuildContext context) {
-    if(widget.cardContent.type==1){
+    if(widget.cardContent.type==1 || widget.cardContent.type==0){
       return TextCard(cardContent: widget.cardContent);
     }
     else if(widget.cardContent.type==2){
@@ -264,6 +351,8 @@ class _MakeCardState extends State<MakeCard> {
     else if(widget.cardContent.type==4){
       return InactiveQuizCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
     }
+    else if(widget.cardContent.type==6){
+      return HorizontalScrollCard(cardContent: widget.cardContent, updateCardFunction: widget.updateCardFunction, index: widget.index);}
     else{
       return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
     }
