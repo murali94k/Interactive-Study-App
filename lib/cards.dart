@@ -212,10 +212,11 @@ class _QuizCardState extends State<QuizCard> {
                     CardContent newCard = CardContent(type: 4, question: widget.cardContent.question,
                         options:widget.cardContent.options,
                         answer:widget.cardContent.answer, selection: selectedOption);// inactiveCard details
-                    widget.updateCardFunction(type: 4, index: widget.index, updateType: "replace", newCard: newCard);
+
+                    widget.updateCardFunction(type: 4, index: widget.index, updateType: "replace", newCard: newCard);// insert inactive card
+
                     if(selectedOption==widget.cardContent.answer) {
-                      widget.updateCardFunction(
-                          type: 5, index: widget.index+1, updateType: "insert");
+                      widget.updateCardFunction(updateType: "score"); // increase score
                     }
                   },
                   child: const Text("Submit"),
