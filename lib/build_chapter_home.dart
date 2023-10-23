@@ -21,63 +21,72 @@ class BuildChapterHome extends StatelessWidget {
           ChapterBackground(bgImage: bgImage, chapterTitle: chapterTitle),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                      margin: const EdgeInsets.symmetric(vertical: 20),
-                      // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.cyan[900],
-                        borderRadius: BorderRadius.circular(5)
-                      ),
-                      child: Center(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 55),
-                            textStyle: const TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const TimeChapterContent()));
-                          },
-                          child: const Text(" Measuring Time"),
-                        ),
-                      ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 20),
-                    // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
-                    decoration: BoxDecoration(
-                        color: Colors.cyan[900],
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                    child: Center(
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50),
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const MotionChapterContent()));
-                        },
-                        child: const Text("Motion of Objects"),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ChapterTiles(topicContentPage: const TimeChapterContent(),
+                topicTitle: 'Measure Time', cardAvatarIcon: Icons.alarm, cardColor: Colors.grey[300]),
+              ChapterTiles(topicContentPage: const MotionChapterContent(),
+                  topicTitle: 'Motion of Objects', cardAvatarIcon: Icons.directions_run, cardColor: Colors.grey[300]),
+              ChapterTiles(topicContentPage: const MotionChapterContent(),
+                  topicTitle: 'Definition Cards', cardAvatarIcon: Icons.auto_stories, cardColor: Colors.grey[300]),
+              ChapterTiles(topicContentPage: const MotionChapterContent(),
+                  topicTitle: 'Take Quiz', cardAvatarIcon: Icons.psychology, cardColor: Colors.grey[300]),
+              ChapterTiles(topicContentPage: const MotionChapterContent(),
+                  topicTitle: 'Verbal Problems', cardAvatarIcon: Icons.calculate, cardColor: Colors.grey[300]),
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class ChapterTiles extends StatelessWidget {
+  const ChapterTiles({
+    super.key, this.cardColor=Colors.white, required this.topicTitle
+   ,required this.cardAvatarIcon, required this.topicContentPage});
+  final Color? cardColor;
+  final String topicTitle;
+  final IconData cardAvatarIcon;
+  final Widget topicContentPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context)=> topicContentPage));},
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical:10, horizontal: 40),
+        elevation: 30,
+        color: cardColor,
+        shadowColor: Colors.teal[900],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(width: 10,),
+          IconButton(
+            color: Colors.teal[900],
+            iconSize: 30,
+            icon: Icon(cardAvatarIcon),
+            onPressed: () { }
+          ),
+            Expanded(
+              child: Text(topicTitle, textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'EXo2',
+                fontSize: 25,
+                color: Colors.cyan[900]
+               ),
+              ),
+            ),
+            IconButton(
+              iconSize: 30,
+              icon: const Icon(Icons.keyboard_arrow_right),
+              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=> topicContentPage)); },
+            ),
+          ],
+        )
       ),
     );
   }
@@ -111,12 +120,12 @@ class ChapterBackground extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: Center(
               child: Text(chapterTitle,
-              style: const TextStyle(
-                fontFamily: "EXo2",
+              style: TextStyle(
                 fontSize: 40,
-                color: Colors.grey,
+                color: Colors.grey[100],
                 fontWeight: FontWeight.bold,),
               ),
             ),
