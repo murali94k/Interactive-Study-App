@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inquisitive_scholars_app/build_chapter_content.dart';
+import 'package:IS/build_chapter_content.dart';
 
 import 'card_content.dart';
 
@@ -28,6 +28,9 @@ class _DefinitionsChapterContentState extends State<DefinitionsChapterContent> {
     CardContent(type:5),
     CardContent(type: 7, text:"Time taken by a pendulum to complete one oscillation is called time period of that pendulum.",
         options:['TIME PERIOD', 'TIME FOR', 'ONE OSCILLATION']),
+    CardContent(type:5),
+    CardContent(type:7, text:"An object is said to be in MOTION if its position changes with respect to a REFERENCE POINT",
+        options: ["MOTION","CHANGES POSITION","REFERENCE POINT"]),
   ];
   int cardContentLength = 4;
 

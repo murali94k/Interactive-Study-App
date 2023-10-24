@@ -72,8 +72,11 @@ class InactiveQuizCard extends StatefulWidget {
   State<InactiveQuizCard> createState() => _InactiveQuizCardState();
 }
 class PauseCard extends StatefulWidget {
-  PauseCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index});
 
+
+  PauseCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index, required this.scrollControlListerner});
+
+  void Function() scrollControlListerner;
   CardContent cardContent;
   void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
   int index;
@@ -300,6 +303,7 @@ class _PauseCardState extends State<PauseCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        widget.scrollControlListerner();
         widget.updateCardFunction(index: widget.index, updateType: "remove");
       },
       child: Card(
@@ -308,6 +312,7 @@ class _PauseCardState extends State<PauseCard> {
               iconSize: 30,
               icon: const Icon(Icons.keyboard_double_arrow_down),
               onPressed: () {
+                widget.scrollControlListerner();
                 widget.updateCardFunction(index: widget.index, updateType: "remove");
               },
             ),
@@ -421,11 +426,15 @@ class _DefinitionCardsState extends State<DefinitionCards> {
 }
 
 class MakeCard extends StatefulWidget {
-  MakeCard({super.key, required this.cardContent, required this.index, required this.updateCardFunction});
+
+  MakeCard({super.key, required this.cardContent, required this.index, required this.updateCardFunction,
+  required this.scrollControlListerner});
 
   CardContent cardContent;
+  void Function() scrollControlListerner ;
   void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
   int index;
+
 
   @override
   State<MakeCard> createState() => _MakeCardState();
@@ -433,6 +442,7 @@ class MakeCard extends StatefulWidget {
 class _MakeCardState extends State<MakeCard> {
   @override
   Widget build(BuildContext context) {
+
     if(widget.cardContent.type==1 || widget.cardContent.type==0){
       return TextCard(cardContent: widget.cardContent);
     }
@@ -446,7 +456,7 @@ class _MakeCardState extends State<MakeCard> {
       return InactiveQuizCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
     }
     else if(widget.cardContent.type==5){
-      return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
+      return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction, scrollControlListerner: widget.scrollControlListerner);
     }
     else if(widget.cardContent.type==6){
       return HorizontalScrollCard(cardContent: widget.cardContent, updateCardFunction: widget.updateCardFunction, index: widget.index);}
@@ -454,7 +464,7 @@ class _MakeCardState extends State<MakeCard> {
       return DefinitionCards(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
     }
     else{
-      return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
+      return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction, scrollControlListerner: widget.scrollControlListerner );
     }
   }
 }

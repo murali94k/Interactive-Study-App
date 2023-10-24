@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inquisitive_scholars_app/build_chapter_content.dart';
+import 'package:IS/build_chapter_content.dart';
 import 'card_content.dart';
 
 

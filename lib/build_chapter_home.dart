@@ -3,6 +3,7 @@ import 'Motion.dart';
 import 'Time.dart';
 import 'Definitions.dart';
 import 'Quiz.dart';
+import 'Speed.dart';
 
 class BuildChapterHome extends StatelessWidget {
   const BuildChapterHome({Key? key, required this.title,
@@ -29,12 +30,14 @@ class BuildChapterHome extends StatelessWidget {
                 topicTitle: 'Measure Time', cardAvatarIcon: Icons.alarm, cardColor: Colors.grey[300]),
               ChapterTiles(topicContentPage: const MotionChapterContent(),
                   topicTitle: 'Motion of Objects', cardAvatarIcon: Icons.directions_run, cardColor: Colors.grey[300]),
+              ChapterTiles(topicContentPage: const SpeedChapterContent(),
+                  topicTitle: 'Motion And Speed', cardAvatarIcon: Icons.speed_sharp, cardColor: Colors.grey[300]),
               ChapterTiles(topicContentPage: const DefinitionsChapterContent(),
                   topicTitle: 'Definition Cards', cardAvatarIcon: Icons.auto_stories, cardColor: Colors.grey[300]),
               ChapterTiles(topicContentPage: const QuizChapterContent(),
                   topicTitle: 'Take Quiz', cardAvatarIcon: Icons.psychology, cardColor: Colors.grey[300]),
               ChapterTiles(topicContentPage: const MotionChapterContent(),
-                  topicTitle: 'Verbal Problems', cardAvatarIcon: Icons.calculate, cardColor: Colors.grey[300]),
+                  topicTitle: 'Activity', cardAvatarIcon: Icons.calculate, cardColor: Colors.grey[300]),
             ],
           )
         ],

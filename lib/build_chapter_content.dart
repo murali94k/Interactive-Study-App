@@ -18,7 +18,17 @@ class BuildChapterContent extends StatefulWidget {
 }
 
 class _BuildChapterContentState extends State<BuildChapterContent> {
+  final ScrollController _scrollController = ScrollController();
 
+  void scrollControlListerner(){
+    if(_scrollController.hasClients){
+      _scrollController.animateTo(
+        _scrollController.offset+300,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 800),
+      );
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +38,11 @@ class _BuildChapterContentState extends State<BuildChapterContent> {
       ),
 
       body: ListView.builder(
+          controller: _scrollController,
           itemCount: widget.cardLength,
           itemBuilder: (context, index){
-            return MakeCard(cardContent: widget.cardContents[index], updateCardFunction: widget.updateCardFunction, index: index);
+            return MakeCard(cardContent: widget.cardContents[index], updateCardFunction: widget.updateCardFunction,
+                scrollControlListerner:scrollControlListerner, index: index);
           }),
     );
   }

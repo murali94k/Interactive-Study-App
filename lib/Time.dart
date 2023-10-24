@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inquisitive_scholars_app/build_chapter_home.dart';
-import 'package:inquisitive_scholars_app/build_chapter_content.dart';
+import 'package:IS/build_chapter_content.dart';
 
 import 'card_content.dart';
 
@@ -38,7 +37,9 @@ class _TimeChapterContentState extends State<TimeChapterContent> {
     CardContent(type:5),
     CardContent(type:3, text: "", question: "Can you now tell me when is the shadow of the stick are longer in day", options: ['During Morning', 'During Evening', 'At Afternoon', 'Both Morning and Evening'], answer: 3),
     CardContent(type:5),
-    CardContent(type:1, text:"Look ! this shadow looks like some CLOCK hand to me. Can you see that too ?"),
+    CardContent(type: 1, text:"Imagine marking the ground where shadow moves with numbers like you see in clock"),
+    CardContent(type:5),
+    CardContent(type:1, text:"Look ! this shadow looks like a CLOCK hand to me. Can you see that too ?"),
     CardContent(type:2, image: imageIds['sundial_gif']),
     CardContent(type:1, text:"This is what is known as SunDial"),
     CardContent(type:5),
