@@ -22,22 +22,23 @@ class BuildChapterHome extends StatelessWidget {
       body: Stack(
         children: [
           ChapterBackground(bgImage: bgImage, chapterTitle: chapterTitle),
-          Column(
+          const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ChapterTiles(topicContentPage: const TimeChapterContent(),
-                topicTitle: 'Measure Time', cardAvatarIcon: Icons.alarm, cardColor: Colors.grey[300]),
-              ChapterTiles(topicContentPage: const MotionChapterContent(),
-                  topicTitle: 'Motion of Objects', cardAvatarIcon: Icons.directions_run, cardColor: Colors.grey[300]),
-              ChapterTiles(topicContentPage: const SpeedChapterContent(),
-                  topicTitle: 'Motion And Speed', cardAvatarIcon: Icons.speed_sharp, cardColor: Colors.grey[300]),
-              ChapterTiles(topicContentPage: const DefinitionsChapterContent(),
-                  topicTitle: 'Definition Cards', cardAvatarIcon: Icons.auto_stories, cardColor: Colors.grey[300]),
-              ChapterTiles(topicContentPage: const QuizChapterContent(),
-                  topicTitle: 'Take Quiz', cardAvatarIcon: Icons.psychology, cardColor: Colors.grey[300]),
-              ChapterTiles(topicContentPage: const MotionChapterContent(),
-                  topicTitle: 'Activity', cardAvatarIcon: Icons.calculate, cardColor: Colors.grey[300]),
+              SizedBox(height: 90,),
+              ChapterTiles(topicContentPage: TimeChapterContent(),
+                topicTitle: 'Measure Time', cardAvatarIcon: Icons.alarm, cardColor: Colors.white),
+              ChapterTiles(topicContentPage: MotionChapterContent(),
+                  topicTitle: 'Motion of Objects', cardAvatarIcon: Icons.directions_run),
+              ChapterTiles(topicContentPage: SpeedChapterContent(),
+                  topicTitle: 'Motion And Speed', cardAvatarIcon: Icons.speed_sharp),
+              ChapterTiles(topicContentPage: DefinitionsChapterContent(),
+                  topicTitle: 'Definition Cards', cardAvatarIcon: Icons.auto_stories),
+              ChapterTiles(topicContentPage: QuizChapterContent(),
+                  topicTitle: 'Take Quiz', cardAvatarIcon: Icons.psychology),
+              ChapterTiles(topicContentPage: MotionChapterContent(),
+                  topicTitle: 'Activity', cardAvatarIcon: Icons.calculate),
             ],
           )
         ],

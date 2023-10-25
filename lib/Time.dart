@@ -44,6 +44,7 @@ class _TimeChapterContentState extends State<TimeChapterContent> {
     CardContent(type:1, text:"This is what is known as SunDial"),
     CardContent(type:5),
     CardContent(type:1, text:"Activity: \n  Think of other ways or tools to approximately measure time."),
+    CardContent(type: -1),
   ];
   int cardContentLength = 3;
 

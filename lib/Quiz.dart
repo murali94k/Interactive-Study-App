@@ -33,7 +33,6 @@ class _QuizChapterContentState extends State<QuizChapterContent> {
     CardContent(type:3, question:"Which of the following is/are true for pendulum ?",
         options:["Time period changes with change in length of pendulum", "Mass has no effect on time period", "time period increases with increase in length", "all the above"], answer:3),
     CardContent(type: 5),
-    CardContent(type:0, text:"Finished")
   ];
   int cardContentLength = 7;
 
@@ -65,7 +64,8 @@ class _QuizChapterContentState extends State<QuizChapterContent> {
       }
       else if (updateType=="remove"){ // pause card removal
         cardContents.removeAt(index);
-        cardContents[cardContents.length-1] = CardContent(type: 0, text: "Final Score : $score / $questions"); // place score card at the end
+        double final_score = (score / questions)*100;
+        cardContents[cardContents.length-1] = CardContent(type: -1, text: "Final Score : $score ", explain: '+$final_score Points');
       }
       else if (updateType=="score"){
         score += 1;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'card_content.dart';
+import 'package:confetti/confetti.dart';
+import 'main.dart';
 
 /*
 Card types:
@@ -12,7 +14,6 @@ Card types:
 6. HorizontalScrollCard: Multiple ImageCards stacked horizontally to be able to scroll
 7. DefinitionCards: Multiple cards to explain definition well
  */
-
 
 double pageFont = 17.0;
 double headingFont = 21.0;
@@ -31,8 +32,61 @@ var quizSelectedOption = Colors.grey[400];
 var quizCardShadowColor = Colors.cyan[900];
 var definitionFontColor = Colors.cyan[900];
 var definitionCardColor = Colors.grey[300];
-List definitionWordColors = [Colors.red[900], Colors.lightGreen[900], Colors.amber[900], Colors.lightBlue[900]];
+List definitionWordColors = [
+  Colors.red[900],
+  Colors.lightGreen[900],
+  Colors.amber[900],
+  Colors.lightBlue[900]
+];
 var quizCardElevation = 0.0;
+
+
+Widget confettiShower(BuildContext context) {
+  ConfettiController confettiController =
+  ConfettiController(duration: const Duration(seconds: 1));
+  confettiController.play();
+  return Center(
+    child: ConfettiWidget(
+      confettiController: confettiController,
+      blastDirectionality: BlastDirectionality.explosive,
+      maxBlastForce: 15,
+      minBlastForce: 1,
+      emissionFrequency: 0.1,
+
+      // 10 paticles will pop-up at a time
+      numberOfParticles: 20,
+
+      // particles will pop-up
+      gravity: 0.1,
+    ),
+  );
+}
+
+void popUp(BuildContext context, {var icon=Icons.emoji_events_sharp ,String title="Congratulations", String message="+50 points" } ) {
+  showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => Stack(
+      children: [
+        AlertDialog(
+          title: Text(title),
+          content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+                onPressed: () {},
+                iconSize: 60,
+                color: Colors.amber,
+                icon: Icon(icon)),
+          Text(message)],
+          ),
+        ),
+        confettiShower(context)
+      ],
+    ),
+  );
+}
+
 
 
 class TextCard extends StatefulWidget {
@@ -43,6 +97,7 @@ class TextCard extends StatefulWidget {
   @override
   State<TextCard> createState() => _TextCardState();
 }
+
 class ImageCard extends StatefulWidget {
   ImageCard({super.key, required this.cardContent});
 
@@ -51,65 +106,130 @@ class ImageCard extends StatefulWidget {
   @override
   State<ImageCard> createState() => _ImageCardState();
 }
+
 class QuizCard extends StatefulWidget {
-  QuizCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index});
+  QuizCard(
+      {super.key,
+      required this.cardContent,
+      required this.updateCardFunction,
+      required this.index});
 
   CardContent cardContent;
-  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
   int index;
 
   @override
   State<QuizCard> createState() => _QuizCardState();
 }
+
 class InactiveQuizCard extends StatefulWidget {
-  InactiveQuizCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index});
+  InactiveQuizCard(
+      {super.key,
+      required this.cardContent,
+      required this.updateCardFunction,
+      required this.index});
 
   CardContent cardContent;
-  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
   int index;
 
   @override
   State<InactiveQuizCard> createState() => _InactiveQuizCardState();
 }
+
 class PauseCard extends StatefulWidget {
-
-
-  PauseCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index, required this.scrollControlListerner});
+  PauseCard(
+      {super.key,
+      required this.cardContent,
+      required this.updateCardFunction,
+      required this.index,
+      required this.scrollControlListerner});
 
   void Function() scrollControlListerner;
   CardContent cardContent;
-  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
   int index;
 
   @override
   State<PauseCard> createState() => _PauseCardState();
 }
+
 class HorizontalScrollCard extends StatefulWidget {
-  HorizontalScrollCard({super.key, required this.cardContent, required this.updateCardFunction, required this.index});
+  HorizontalScrollCard(
+      {super.key,
+      required this.cardContent,
+      required this.updateCardFunction,
+      required this.index});
 
   CardContent cardContent;
-  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
   int index;
 
   @override
   State<HorizontalScrollCard> createState() => _HorizontalScrollCardState();
 }
+
 class DefinitionCards extends StatefulWidget {
-  DefinitionCards({super.key, required this.cardContent, required this.updateCardFunction, required this.index});
+  DefinitionCards(
+      {super.key,
+      required this.cardContent,
+      required this.updateCardFunction,
+      required this.index});
 
   CardContent cardContent;
-  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
   int index;
 
   @override
   State<DefinitionCards> createState() => _DefinitionCardsState();
 }
 
+class CompletedCard extends StatefulWidget {
+  CompletedCard(
+      {super.key,
+        required this.cardContent,
+        required this.updateCardFunction,
+        required this.index});
+
+  CardContent cardContent;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
+  int index;
+
+  @override
+  State<CompletedCard> createState() => _CompletedCardState();
+}
+
+
 
 class _TextCardState extends State<TextCard> {
   @override
   Widget build(BuildContext context) {
-    if(widget.cardContent.type==0){ // Heading Text Card
+    if (widget.cardContent.type == 0) {
+      // Heading Text Card
       return Card(
           elevation: quizCardElevation,
           shadowColor: Colors.black,
@@ -118,12 +238,8 @@ class _TextCardState extends State<TextCard> {
             margin: const EdgeInsets.all(10.0),
             child: Text(widget.cardContent.text,
                 style: TextStyle(
-                    fontSize: headingFont,
-                    fontWeight: FontWeight.bold
-                )
-            ),
-          )
-      );
+                    fontSize: headingFont, fontWeight: FontWeight.bold)),
+          ));
     }
     return Card(
         elevation: quizCardElevation,
@@ -133,12 +249,8 @@ class _TextCardState extends State<TextCard> {
           margin: const EdgeInsets.all(10.0),
           child: Text(widget.cardContent.text,
               style: TextStyle(
-                  fontSize: pageFont,
-                  fontFamily: textCardFontFamily
-              )
-          ),
-        )
-    );
+                  fontSize: pageFont, fontFamily: textCardFontFamily)),
+        ));
   }
 }
 
@@ -153,7 +265,8 @@ class _ImageCardState extends State<ImageCard> {
       ),
       elevation: quizCardElevation,
       margin: EdgeInsets.all(cardPadding),
-      child:Image.network(widget.cardContent.image,
+      child: Image.network(
+        widget.cardContent.image,
         fit: BoxFit.fill,
       ),
     );
@@ -173,34 +286,33 @@ class _QuizCardState extends State<QuizCard> {
                 color: quizCardColor,
                 padding: EdgeInsets.all(cardPadding),
                 child: Text(widget.cardContent.question,
-                style: TextStyle(
-                  fontFamily: quizCardFontFamily,
-                  fontSize: pageFont
-                 )
-                )
-            ),
-            Column(
-              children: widget.cardContent.options.map((option)=>
-                  ListTile(
-                    title: Text(option,
                     style: TextStyle(
-                      fontSize: pageFont,
-                      fontFamily: quizCardFontFamily
-                      ),
-                    ),
-                    leading: Radio<int>(
-                      value: widget.cardContent.options.indexOf(option),
-                      groupValue: selectedOption,
-                      activeColor: Colors.cyan[900], // Change the active radio button color here
-                      splashRadius: 40, // Change the splash radius when clicked
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value!;
-                        });
-                      },
-                    ),
-                  )).toList(),
-             ),
+                        fontFamily: quizCardFontFamily, fontSize: pageFont))),
+            Column(
+              children: widget.cardContent.options
+                  .map((option) => ListTile(
+                        title: Text(
+                          option,
+                          style: TextStyle(
+                              fontSize: pageFont,
+                              fontFamily: quizCardFontFamily),
+                        ),
+                        leading: Radio<int>(
+                          value: widget.cardContent.options.indexOf(option),
+                          groupValue: selectedOption,
+                          activeColor: Colors.cyan[
+                              900], // Change the active radio button color here
+                          splashRadius:
+                              40, // Change the splash radius when clicked
+                          onChanged: (value) {
+                            setState(() {
+                              selectedOption = value!;
+                            });
+                          },
+                        ),
+                      ))
+                  .toList(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -212,14 +324,22 @@ class _QuizCardState extends State<QuizCard> {
                     textStyle: TextStyle(fontSize: pageFont),
                   ),
                   onPressed: () {
-                    CardContent newCard = CardContent(type: 4, question: widget.cardContent.question,
-                        options:widget.cardContent.options,
-                        answer:widget.cardContent.answer, selection: selectedOption);// inactiveCard details
+                    CardContent newCard = CardContent(
+                        type: 4,
+                        question: widget.cardContent.question,
+                        options: widget.cardContent.options,
+                        answer: widget.cardContent.answer,
+                        selection: selectedOption); // inactiveCard details
 
-                    widget.updateCardFunction(type: 4, index: widget.index, updateType: "replace", newCard: newCard);// insert inactive card
+                    widget.updateCardFunction(
+                        type: 4,
+                        index: widget.index,
+                        updateType: "replace",
+                        newCard: newCard); // insert inactive card
 
-                    if(selectedOption==widget.cardContent.answer) {
-                      widget.updateCardFunction(updateType: "score"); // increase score
+                    if (selectedOption == widget.cardContent.answer) {
+                      widget.updateCardFunction(
+                          updateType: "score"); // increase score
                     }
                   },
                   child: const Text("Submit"),
@@ -227,18 +347,16 @@ class _QuizCardState extends State<QuizCard> {
               ],
             )
           ],
-        )
-    );
+        ));
   }
 }
 
 class _InactiveQuizCardState extends State<InactiveQuizCard> {
-
   @override
   Widget build(BuildContext context) {
     var resultFontColor = Colors.red[900];
     String resultText = "Incorrect !";
-    if(widget.cardContent.answer == widget.cardContent.selection){
+    if (widget.cardContent.answer == widget.cardContent.selection) {
       resultFontColor = Colors.green[900];
       resultText = "Correct !";
     }
@@ -252,34 +370,28 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
               padding: EdgeInsets.all(cardPadding),
               child: Text(widget.cardContent.question,
                   style: TextStyle(
-                      fontFamily: quizCardFontFamily,
-                      fontSize: pageFont
-                  )
-              )
-          ),
+                      fontFamily: quizCardFontFamily, fontSize: pageFont))),
           Column(
-              children: widget.cardContent.options.map((option){
-                int index_ = widget.cardContent.options.indexOf(option);
-                dynamic boxColor = frozenQuizCardColor;
-                if(index_ == widget.cardContent.answer){
-                  boxColor = quizCorrectOption;
-                }
-                else if((index_ == widget.cardContent.selection) &&  (widget.cardContent.selection != widget.cardContent.answer)){
-                  boxColor = quizSelectedOption;
-                }
-                return ColoredBox(
-                  color: boxColor,
-                  child: ListTile(
-                    title: Text(option,
-                      style: TextStyle(
-                          fontSize: pageFont,
-                          fontFamily: quizCardFontFamily
-                      ),
-                    ),
-                  ),
-                );
-              }).toList()
-          ),
+              children: widget.cardContent.options.map((option) {
+            int index_ = widget.cardContent.options.indexOf(option);
+            dynamic boxColor = frozenQuizCardColor;
+            if (index_ == widget.cardContent.answer) {
+              boxColor = quizCorrectOption;
+            } else if ((index_ == widget.cardContent.selection) &&
+                (widget.cardContent.selection != widget.cardContent.answer)) {
+              boxColor = quizSelectedOption;
+            }
+            return ColoredBox(
+              color: boxColor,
+              child: ListTile(
+                title: Text(
+                  option,
+                  style: TextStyle(
+                      fontSize: pageFont, fontFamily: quizCardFontFamily),
+                ),
+              ),
+            );
+          }).toList()),
           Container(
               padding: EdgeInsets.all(cardPadding),
               child: Text(resultText,
@@ -287,10 +399,7 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
                       fontFamily: quizCardFontFamily,
                       fontSize: headingFont,
                       fontWeight: FontWeight.bold,
-                      color: resultFontColor
-                  )
-              )
-          ),
+                      color: resultFontColor))),
         ],
       ),
     );
@@ -298,7 +407,6 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
 }
 
 class _PauseCardState extends State<PauseCard> {
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -307,16 +415,17 @@ class _PauseCardState extends State<PauseCard> {
         widget.updateCardFunction(index: widget.index, updateType: "remove");
       },
       child: Card(
-          child:Center(
-            child: IconButton(
-              iconSize: 30,
-              icon: const Icon(Icons.keyboard_double_arrow_down),
-              onPressed: () {
-                widget.scrollControlListerner();
-                widget.updateCardFunction(index: widget.index, updateType: "remove");
-              },
-            ),
+        child: Center(
+          child: IconButton(
+            iconSize: 30,
+            icon: const Icon(Icons.keyboard_double_arrow_down),
+            onPressed: () {
+              widget.scrollControlListerner();
+              widget.updateCardFunction(
+                  index: widget.index, updateType: "remove");
+            },
           ),
+        ),
       ),
     );
   }
@@ -337,7 +446,8 @@ class _HorizontalScrollCardState extends State<HorizontalScrollCard> {
             scale: i == _index ? 1 : 0.9,
             child: Card(
               elevation: quizCardElevation,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               child: Center(
                 child: Card(
                   semanticContainer: true,
@@ -347,7 +457,8 @@ class _HorizontalScrollCardState extends State<HorizontalScrollCard> {
                   ),
                   elevation: quizCardElevation,
                   margin: EdgeInsets.all(cardPadding),
-                  child:Image.network(widget.cardContent.options[i],
+                  child: Image.network(
+                    widget.cardContent.options[i],
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -361,10 +472,8 @@ class _HorizontalScrollCardState extends State<HorizontalScrollCard> {
 }
 
 class _DefinitionCardsState extends State<DefinitionCards> {
-
   @override
   Widget build(BuildContext context) {
-
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       backgroundColor: definitionCardColor,
@@ -379,93 +488,137 @@ class _DefinitionCardsState extends State<DefinitionCards> {
         elevation: quizCardElevation,
         shadowColor: quizCardShadowColor,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Text(widget.cardContent.options[0],
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.bold,
-                fontSize: headingFont,
-                fontFamily: textCardFontFamily,
-                color: Colors.red[900]
-              )),
-            ),
-            Text(widget.cardContent.text, textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: headingFont,
-              fontFamily: quizCardFontFamily,
-              color: definitionFontColor,
-            ),),
-            const Divider(thickness: 5,),
-            Wrap(
-              alignment: WrapAlignment.spaceAround,
-              children: widget.cardContent.options.map(
-                  (word){
-                    return TextButton(
-                      style: flatButtonStyle,
-                      onPressed: () { },
-                      child: Text(word,
-                      style: TextStyle(
-                        fontFamily: textCardFontFamily,
-                        fontSize: 16,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Text(widget.cardContent.options[0],
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
-                        color: definitionWordColors[widget.cardContent.options.indexOf(word)%definitionWordColors.length]
-                      )),
-                    );
-                  }
-              ).toList(),
-            ),
-           ]
-          ),
-        ),
-      );
+                        fontSize: headingFont,
+                        fontFamily: textCardFontFamily,
+                        color: Colors.red[900])),
+              ),
+              Text(
+                widget.cardContent.text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: headingFont,
+                  fontFamily: quizCardFontFamily,
+                  color: definitionFontColor,
+                ),
+              ),
+              const Divider(
+                thickness: 5,
+              ),
+              Wrap(
+                alignment: WrapAlignment.spaceAround,
+                children: widget.cardContent.options.map((word) {
+                  return TextButton(
+                    style: flatButtonStyle,
+                    onPressed: () {},
+                    child: Text(word,
+                        style: TextStyle(
+                            fontFamily: textCardFontFamily,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: definitionWordColors[
+                                widget.cardContent.options.indexOf(word) %
+                                    definitionWordColors.length])),
+                  );
+                }).toList(),
+              ),
+            ]),
+      ),
+    );
   }
 }
 
-class MakeCard extends StatefulWidget {
+class _CompletedCardState extends State<CompletedCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: submitBGColor,
+          foregroundColor: submitFGColor,
+          padding: const EdgeInsets.all(10.0),
+          textStyle: TextStyle(fontSize: pageFont),
+        ), onPressed: () {
+          if(widget.cardContent.explain.isNotEmpty){
+            popUp(context, title: widget.cardContent.text, message: widget.cardContent.explain);
+          }
+          else{
+            popUp(context);
+          }
 
-  MakeCard({super.key, required this.cardContent, required this.index, required this.updateCardFunction,
-  required this.scrollControlListerner});
+      }, child: const Text("Mark Completion"),
+      ),
+    );
+  }
+}
+
+
+class MakeCard extends StatefulWidget {
+  MakeCard(
+      {super.key,
+      required this.cardContent,
+      required this.index,
+      required this.updateCardFunction,
+      required this.scrollControlListerner});
 
   CardContent cardContent;
-  void Function() scrollControlListerner ;
-  void Function({dynamic index, dynamic type, dynamic updateType, dynamic newCard}) updateCardFunction;
+  void Function() scrollControlListerner;
+  void Function(
+      {dynamic index,
+      dynamic type,
+      dynamic updateType,
+      dynamic newCard}) updateCardFunction;
   int index;
-
 
   @override
   State<MakeCard> createState() => _MakeCardState();
 }
+
 class _MakeCardState extends State<MakeCard> {
   @override
   Widget build(BuildContext context) {
-
-    if(widget.cardContent.type==1 || widget.cardContent.type==0){
+    if (widget.cardContent.type == 1 || widget.cardContent.type == 0) {
       return TextCard(cardContent: widget.cardContent);
-    }
-    else if(widget.cardContent.type==2){
+    } else if (widget.cardContent.type == 2) {
       return ImageCard(cardContent: widget.cardContent);
-    }
-    else if(widget.cardContent.type==3){
-      return QuizCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
-    }
-    else if(widget.cardContent.type==4){
-      return InactiveQuizCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
-    }
-    else if(widget.cardContent.type==5){
-      return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction, scrollControlListerner: widget.scrollControlListerner);
-    }
-    else if(widget.cardContent.type==6){
-      return HorizontalScrollCard(cardContent: widget.cardContent, updateCardFunction: widget.updateCardFunction, index: widget.index);}
-    else if(widget.cardContent.type==7){
-      return DefinitionCards(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction );
-    }
-    else{
-      return PauseCard(cardContent: widget.cardContent, index: widget.index, updateCardFunction: widget.updateCardFunction, scrollControlListerner: widget.scrollControlListerner );
+    } else if (widget.cardContent.type == 3) {
+      return QuizCard(
+          cardContent: widget.cardContent,
+          index: widget.index,
+          updateCardFunction: widget.updateCardFunction);
+    } else if (widget.cardContent.type == 4) {
+      return InactiveQuizCard(
+          cardContent: widget.cardContent,
+          index: widget.index,
+          updateCardFunction: widget.updateCardFunction);
+    } else if (widget.cardContent.type == 5) {
+      return PauseCard(
+          cardContent: widget.cardContent,
+          index: widget.index,
+          updateCardFunction: widget.updateCardFunction,
+          scrollControlListerner: widget.scrollControlListerner);
+    } else if (widget.cardContent.type == 6) {
+      return HorizontalScrollCard(
+          cardContent: widget.cardContent,
+          updateCardFunction: widget.updateCardFunction,
+          index: widget.index);
+    } else if (widget.cardContent.type == 7) {
+      return DefinitionCards(
+          cardContent: widget.cardContent,
+          index: widget.index,
+          updateCardFunction: widget.updateCardFunction);
+    } else {
+      return CompletedCard(
+        cardContent: widget.cardContent,
+        index: widget.index,updateCardFunction: widget.updateCardFunction);
     }
   }
 }
-

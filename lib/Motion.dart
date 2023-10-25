@@ -92,7 +92,8 @@ class _MotionChapterContentState extends State<MotionChapterContent> {
     CardContent(type: 1, text:"Are you ready for the MAGIC with just the principles we have learnt so far..."),
     CardContent(type:5),
     CardContent(type: 2, image: imageIds["pendulum_snake"]),
-    CardContent(type: 1, text:"Can you see what is the reason behind it moving like this?")
+    CardContent(type: 1, text:"Can you see what is the reason behind it moving like this?"),
+    CardContent(type: -1),
   ];
   int cardContentLength = 4;
 
