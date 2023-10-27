@@ -4,6 +4,7 @@ import 'Time.dart';
 import 'Definitions.dart';
 import 'Quiz.dart';
 import 'Speed.dart';
+import 'pendulum_swing.dart';
 
 class BuildChapterHome extends StatelessWidget {
   const BuildChapterHome({Key? key, required this.title,
@@ -37,8 +38,8 @@ class BuildChapterHome extends StatelessWidget {
                   topicTitle: 'Definition Cards', cardAvatarIcon: Icons.auto_stories),
               ChapterTiles(topicContentPage: QuizChapterContent(),
                   topicTitle: 'Take Quiz', cardAvatarIcon: Icons.psychology),
-              ChapterTiles(topicContentPage: MotionChapterContent(),
-                  topicTitle: 'Activity', cardAvatarIcon: Icons.calculate),
+              ChapterTiles(topicContentPage: PlayGroundChapter(),
+                  topicTitle: 'Play Ground', cardAvatarIcon: Icons.calculate),
             ],
           )
         ],

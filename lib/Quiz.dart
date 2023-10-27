@@ -64,8 +64,8 @@ class _QuizChapterContentState extends State<QuizChapterContent> {
       }
       else if (updateType=="remove"){ // pause card removal
         cardContents.removeAt(index);
-        double final_score = (score / questions)*100;
-        cardContents[cardContents.length-1] = CardContent(type: -1, text: "Final Score : $score ", explain: '+$final_score Points');
+        double finalScore = (score / questions)*100;
+        cardContents[cardContents.length-1] = CardContent(type: -1, text: "Final Score : $score ", explain: '+$finalScore Points');
       }
       else if (updateType=="score"){
         score += 1;
