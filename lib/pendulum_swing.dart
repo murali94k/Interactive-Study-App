@@ -1,9 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:counter_button/counter_button.dart';
-
 import 'dart:math';
-import 'dart:ui';
 
 class PendulumInfo {
   double length;
@@ -16,6 +12,11 @@ class PendulumInfo {
   /// acceleration
   double acc;
 
+  double oscillations;
+  final stopwatch = Stopwatch();
+  double totalTime;
+  double amplitude;
+
   // Canvas related
   Color paintColor = Colors.black;
   Offset origin;
@@ -27,7 +28,10 @@ class PendulumInfo {
         required this.angle,
         required this.origin,
         this.angularVel = 1,
-        this.acc = 1});
+        this.acc = 1,
+        this.oscillations=0,
+        required this.amplitude,
+      this.totalTime=0});
 
   Offset get endPoint =>
       Offset((length * sin(angle)), (length * cos(angle))) + origin;
@@ -38,7 +42,6 @@ class PendulumInfo {
 
 class PlayGroundChapter extends StatefulWidget {
   const PlayGroundChapter({super.key});
-
   @override
   State<PlayGroundChapter> createState() => _PlayGroundChapterState();
 }
@@ -63,24 +66,24 @@ class PendulumPlayGround extends StatefulWidget {
 }
 
 
-
-
-
-
 class _PendulumPlayGroundState extends State<PendulumPlayGround>
     with SingleTickerProviderStateMixin {
 
   late AnimationController _animationController;
 
   late PendulumSimulationManager pendulumManager;
+  double oscillations = 0;
+
   double gravity = 9.8;
-  double pendulumLength = 140;
+  double pendulumLength = 160;
   double pendulumMass = 10;
-  double pendulumAngle = 30;
+  double pendulumAngle = 30;//degrees
+  double totalTime=0;
+
 
   int maxLength = 500;
   int minLength = 30;
-  int minMass = 3;
+  int minMass = 12;
   int maxMass = 100;
   double minGravity = 1;
   double maxGravity = 15;
@@ -89,6 +92,7 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
   int massIncrements = 10;
   int gravityIncrements = 1;
 
+  bool stopTimer = false;
 
   @override
   void initState() {
@@ -108,7 +112,10 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
       gravity: gravity / 60, //Dividing gravity accross frames, assuming 60 FPS.
       pendulumLength: pendulumLength,
       pendulumMass: pendulumMass,
-      pendulumAngle: pendulumAngle * 0.0174533,
+      pendulumAngle: pendulumAngle * 0.0174533,// radians
+      oscillations: oscillations,
+      totalTime: totalTime,
+        stopTimer: stopTimer
     );
     pendulumManager.initializePendulum();
 
@@ -163,7 +170,7 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text("$pendulumLength",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: "EXo2"
                         ))),
@@ -207,7 +214,7 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text("$pendulumMass",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "EXo2"
                             ))),
@@ -250,7 +257,7 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                     }, icon: const Icon(Icons.remove, size: 15)),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text("${gravity.toStringAsFixed(1)}",
+                        child: Text(gravity.toStringAsFixed(1),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "EXo2"
@@ -270,7 +277,7 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                   thickness: 2,
                 ),
                 Wrap(
-                  alignment: WrapAlignment.spaceBetween,
+                  alignment: WrapAlignment.spaceAround,
                   children: [
                     // Reset
                     TextButton(
@@ -284,26 +291,34 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                           pendulumLength = 140;
                           pendulumMass = 10;
                           pendulumAngle = 30;
+                          oscillations=0;
+                          totalTime=0;
                         });
                       },
-                      child: const Text("Reset",
+                      child: const Text(" Reset ",
                           style: TextStyle(
                               fontFamily: "EXo2",
                               fontWeight: FontWeight.bold
                           )),
                     ),
                     // Stop
+                    const SizedBox(width: 15,),
                     TextButton(
                       style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         backgroundColor: Colors.red[900],
                         foregroundColor: Colors.black,
                       ),
                       onPressed: () {
                         setState(() {
                           _animationController.stop();
+                          oscillations = pendulumManager.allPendulum.oscillations;
+                          pendulumAngle = pendulumManager.allPendulum.angle/ 0.0174533;
+                          totalTime = pendulumManager.pendulum.totalTime;
+                          stopTimer=true;
                         });
                       },
-                      child: const Text("Stop",
+                      child: const Text(" Stop ",
                           style: TextStyle(
                               fontFamily: "EXo2",
                               fontWeight: FontWeight.bold
@@ -315,14 +330,19 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                 const Divider(
                   thickness: 2,
                 ),
+                // Start
                 TextButton(
                   style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     backgroundColor: Colors.green[600],
                     foregroundColor: Colors.black,
                   ),
                   onPressed: () {
                     setState(() {
                       _animationController.repeat();
+                      pendulumManager.pendulum.stopwatch.start();
+                      totalTime = pendulumManager.pendulum.totalTime;
+                      stopTimer = false;
                     });
                   },
                   child: const Text("Start",
@@ -366,7 +386,7 @@ class PendulumSwing extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 1.5;
 
-    pendulum.origin = Offset(size.width/2, 20);
+    pendulum.origin = Offset(size.width/2, 60);
 
     canvas.translate(
         pendulumManager.origin.dx, pendulumManager.origin.dy);
@@ -383,11 +403,35 @@ class PendulumSwing extends CustomPainter {
     canvas.drawRect(Offset(pendulum.origin.dx-supportWidth/2, pendulum.origin.dy-supportHeight/2)
     & Size(supportWidth, supportHeight), pendulumSupportBrush);
 
-
-
     // draws the bob for the first pendulum
     canvas.drawCircle(pendulum.endPoint,
         pendulum.mass, pendulumBobBrush);
+
+    // Text output oscillations and time
+    const textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 15,
+      fontFamily: "EXo2",
+      fontWeight: FontWeight.bold
+    );
+    print("${pendulum.stopwatch.isRunning}");
+
+    final textSpan = TextSpan(
+      text: 'Oscillation: ${pendulum.oscillations}    Time: ${pendulum.totalTime.round()}   ',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    final xCenter = (pendulum.origin.dx-textPainter.width/2);
+    final yCenter = (pendulum.origin.dy -10-textPainter.height);
+    final offset = Offset(xCenter, yCenter);
+    textPainter.paint(canvas, offset);
   }
 
   @override
@@ -405,13 +449,19 @@ class PendulumSimulationManager {
   double pendulumAngle;
   Offset origin=Offset.zero;
   double gravity;
+  double totalTime;
+  double oscillations;
+  bool stopTimer=true;
 
   PendulumSimulationManager({
     this.origin = Offset.zero,
     required this.gravity,
     this.pendulumLength = 200,
     this.pendulumMass = 6,
-    this.pendulumAngle = pi / 4,
+    this.pendulumAngle = pi / 4 ,
+    this.totalTime=0,
+    this.oscillations=0,
+    this.stopTimer=true
   });
 
   late PendulumInfo pendulum ;
@@ -424,12 +474,30 @@ class PendulumSimulationManager {
       origin: Offset.zero,
       angularVel: 0,
       acc: 0,
+      oscillations: oscillations,
+      amplitude: pendulumAngle,
+      totalTime: totalTime,
     );
+    if(stopTimer==true) {
+      pendulum.stopwatch.stop();
+    }
+    else{
+      pendulum.stopwatch.start();
+    }
   }
+
 
   void reEstimateAngles() {
     pendulum.angularVel += _simulatedAnglePendulum1(pendulum);
     pendulum.angle += pendulum.angularVel;
+    if(pendulum.angle>=(pendulum.amplitude).abs()){
+      pendulum.oscillations += 1;
+      if(stopTimer==false){
+        pendulum.totalTime = (pendulum.stopwatch.elapsedMilliseconds/1000);
+      }
+    }
+
+
   }
 
   double _simulatedAnglePendulum1(PendulumInfo pendulum) {
