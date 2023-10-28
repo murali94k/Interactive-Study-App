@@ -279,30 +279,7 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                 Wrap(
                   alignment: WrapAlignment.spaceAround,
                   children: [
-                    // Reset
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.black,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          gravity = 9.8;
-                          pendulumLength = 140;
-                          pendulumMass = 10;
-                          pendulumAngle = 30;
-                          oscillations=0;
-                          totalTime=0;
-                        });
-                      },
-                      child: const Text(" Reset ",
-                          style: TextStyle(
-                              fontFamily: "EXo2",
-                              fontWeight: FontWeight.bold
-                          )),
-                    ),
-                    // Stop
-                    const SizedBox(width: 15,),
+                    // stop
                     TextButton(
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -323,34 +300,58 @@ class _PendulumPlayGroundState extends State<PendulumPlayGround>
                               fontFamily: "EXo2",
                               fontWeight: FontWeight.bold
                           )),
-                    ),// Restart
+                    ),
+                    // Start
+                    const SizedBox(width: 15,),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        backgroundColor: Colors.green[600],
+                        foregroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _animationController.repeat();
+                          pendulumManager.pendulum.stopwatch.start();
+                          totalTime = pendulumManager.pendulum.totalTime;
+                          stopTimer = false;
+                        });
+                      },
+                      child: const Text(" Start ",
+                          style: TextStyle(
+                              fontFamily: "EXo2",
+                              fontWeight: FontWeight.bold
+                          )),
+                    ),
 
                   ],
                 ),
                 const Divider(
                   thickness: 2,
                 ),
-                // Start
+                // Reset
                 TextButton(
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    backgroundColor: Colors.green[600],
+                    backgroundColor: Colors.blue,
                     foregroundColor: Colors.black,
                   ),
                   onPressed: () {
                     setState(() {
-                      _animationController.repeat();
-                      pendulumManager.pendulum.stopwatch.start();
-                      totalTime = pendulumManager.pendulum.totalTime;
-                      stopTimer = false;
+                      gravity = 9.8;
+                      pendulumLength = 140;
+                      pendulumMass = 10;
+                      pendulumAngle = 30;
+                      oscillations=0;
+                      totalTime=0;
                     });
                   },
-                  child: const Text("Start",
+                  child: const Text(" Reset ",
                       style: TextStyle(
                           fontFamily: "EXo2",
                           fontWeight: FontWeight.bold
                       )),
                 ),
+
 
 
               ],
@@ -414,7 +415,6 @@ class PendulumSwing extends CustomPainter {
       fontFamily: "EXo2",
       fontWeight: FontWeight.bold
     );
-    print("${pendulum.stopwatch.isRunning}");
 
     final textSpan = TextSpan(
       text: 'Oscillation: ${pendulum.oscillations}    Time: ${pendulum.totalTime.round()}   ',
