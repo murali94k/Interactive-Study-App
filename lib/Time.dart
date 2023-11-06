@@ -20,7 +20,7 @@ class TimeChapterContent extends StatefulWidget {
 
 class _TimeChapterContentState extends State<TimeChapterContent> {
   List<CardContent> cardContents = [
-    CardContent(type:0, text: "Measuring Time "),
+    CardContent(type:0, text: "Time "),
     CardContent(type:1, text: "What comes to your mind when I say word TIME ..."),
     CardContent(type:5),
     CardContent(type:1, text: "Is it a CLOCK hanging on the wall or your school bell ringing ! Have you ever wondered how to measure time if we don't have the CLOCK ?"),

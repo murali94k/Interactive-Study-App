@@ -15,12 +15,14 @@ Card types:
 7. DefinitionCards: Multiple cards to explain definition well
  */
 
-double pageFont = 17.0;
+double pageFont = 17.5;
 double headingFont = 21.0;
 double cardPadding = 10.0;
+double letterSpacing = 0;
+double wordSpacing = 4.7;
 
 String textCardFontFamily = "EXo2";
-String quizCardFontFamily = "TiltNeon";
+String quizCardFontFamily = "EXo2";
 
 var submitBGColor = Colors.amber[50];
 var submitFGColor = Colors.black;
@@ -246,10 +248,11 @@ class _TextCardState extends State<TextCard> {
         shadowColor: Colors.black,
         color: textCardColor,
         child: Container(
+          color: Colors.white,
           margin: const EdgeInsets.all(10.0),
           child: Text(widget.cardContent.text,
               style: TextStyle(
-                  fontSize: pageFont, fontFamily: textCardFontFamily)),
+                  fontSize: pageFont, fontFamily: textCardFontFamily,  letterSpacing: letterSpacing, wordSpacing: wordSpacing)),
         ));
   }
 }
@@ -287,7 +290,7 @@ class _QuizCardState extends State<QuizCard> {
                 padding: EdgeInsets.all(cardPadding),
                 child: Text(widget.cardContent.question,
                     style: TextStyle(
-                        fontFamily: quizCardFontFamily, fontSize: pageFont))),
+                        fontFamily: quizCardFontFamily, fontSize: pageFont, letterSpacing: letterSpacing, wordSpacing: wordSpacing))),
             Column(
               children: widget.cardContent.options
                   .map((option) => ListTile(
@@ -295,7 +298,7 @@ class _QuizCardState extends State<QuizCard> {
                           option,
                           style: TextStyle(
                               fontSize: pageFont,
-                              fontFamily: quizCardFontFamily),
+                              fontFamily: quizCardFontFamily, letterSpacing: letterSpacing, wordSpacing: wordSpacing),
                         ),
                         leading: Radio<int>(
                           value: widget.cardContent.options.indexOf(option),
@@ -370,7 +373,7 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
               padding: EdgeInsets.all(cardPadding),
               child: Text(widget.cardContent.question,
                   style: TextStyle(
-                      fontFamily: quizCardFontFamily, fontSize: pageFont))),
+                      fontFamily: quizCardFontFamily, fontSize: pageFont, letterSpacing: letterSpacing, wordSpacing: wordSpacing))),
           Column(
               children: widget.cardContent.options.map((option) {
             int index_ = widget.cardContent.options.indexOf(option);
@@ -387,7 +390,7 @@ class _InactiveQuizCardState extends State<InactiveQuizCard> {
                 title: Text(
                   option,
                   style: TextStyle(
-                      fontSize: pageFont, fontFamily: quizCardFontFamily),
+                      fontSize: pageFont, fontFamily: quizCardFontFamily, letterSpacing: letterSpacing, wordSpacing: wordSpacing),
                 ),
               ),
             );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:IS/build_chapter_home.dart';
 import 'package:IS/build_chapter_content.dart';
 
 import 'card_content.dart';
@@ -93,6 +92,7 @@ class _MotionChapterContentState extends State<MotionChapterContent> {
     CardContent(type:5),
     CardContent(type: 2, image: imageIds["pendulum_snake"]),
     CardContent(type: 1, text:"Can you see what is the reason behind it moving like this?"),
+    CardContent(type:5),
     CardContent(type: -1),
   ];
   int cardContentLength = 4;

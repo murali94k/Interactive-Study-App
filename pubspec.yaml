@@ -30,9 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_html: ^2.2.1
   confetti: ^0.7.0
-  counter_button: ^1.0.1
+  webview_flutter: ^4.4.1
+  carousel_slider: ^4.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -83,7 +83,12 @@ flutter:
     - family: EXo2
       fonts:
         - asset: fonts/PlaypenSans.ttf
-#        - asset: fonts/Exo2-VariableFont.ttf
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-Medium.ttf
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
 
   #
   # For details regarding fonts from package dependencies,

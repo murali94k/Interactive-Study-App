@@ -31,6 +31,9 @@ class _DefinitionsChapterContentState extends State<DefinitionsChapterContent> {
     CardContent(type:5),
     CardContent(type:7, text:"An object is said to be in MOTION if its position changes with respect to a REFERENCE POINT",
         options: ["MOTION","CHANGES POSITION","REFERENCE POINT"]),
+    CardContent(type:5),
+    CardContent(type:7, text:"The SPEED of an object is the measure of DISTANCE it travels in a UNIT TIME",
+        options: ["SPEED","DISTANCE","UNIT TIME"]),
   ];
   int cardContentLength = 4;
 
