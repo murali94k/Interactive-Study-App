@@ -82,6 +82,7 @@ flutter:
        - asset: fonts/TiltNeon-Regular.ttf
     - family: EXo2
       fonts:
+#        - asset: fonts/Lato-Regular.ttf
         - asset: fonts/PlaypenSans.ttf
     - family: OpenSans
       fonts:

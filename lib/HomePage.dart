@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:IS/PhysicsHomePage.dart';
 
+import 'Motion.dart';
+import 'Speed.dart';
+import 'PendulumSwing.dart';
+import 'Matigon.dart';
+
 double rowPadding = 10;
 double contentPaddding = 20;
 
-List topicCards = [{"topic":"Speed", "icon":Icons.rocket_launch, "color":Colors.pinkAccent[100], "chapter":"Chapter-2", "subject":"PHYSICS"},
-  {"topic":"Motion", "icon":Icons.directions_run, "color":Colors.blue[300], "chapter":"Chapter-8", "subject":"PHYSICS"},
-  {"topic":"LCM & HCF", "icon":Icons.calculate, "color":Colors.orange[200], "chapter":"Chapter-3", "subject":"MATHS"}
+List topicCards = [{"topic":"Speed", "navigation":SpeedChapterContent() ,"icon":Icons.rocket_launch, "color":Colors.pinkAccent[100], "chapter":"Chapter-2", "subject":"PHYSICS"},
+  {"topic":"Motion", "navigation":MotionChapterContent(), "icon":Icons.directions_run, "color":Colors.blue[300], "chapter":"Chapter-8", "subject":"PHYSICS"},
+  {"topic":"LCM & HCF", "navigation":SpeedChapterContent(), "icon":Icons.calculate, "color":Colors.orange[200], "chapter":"Chapter-3", "subject":"MATHS"}
 ];
 
-List courseCards = [{"chapter_page":PhysicsHome(), "icon":Icons.tips_and_updates_outlined, "color":Colors.pinkAccent[100], "subject":"Physics"},
-  {"chapter_page":PhysicsHome(), "icon":Icons.category_rounded, "color":Colors.lime[400], "subject":"Mathematics"},
-  {"chapter_page":PhysicsHome(), "icon":Icons.science_rounded, "color":Colors.blue[400], "subject":"Chemistry"},
-  {"chapter_page":PhysicsHome(), "icon":Icons.biotech_rounded, "color":Colors.green[300], "subject":"Biology"}
+List courseCards = [{"navigation":PhysicsHome(), "icon":Icons.tips_and_updates_outlined, "color":Colors.pinkAccent[100], "subject":"Physics"},
+  {"navigation":PhysicsHome(), "icon":Icons.category_rounded, "color":Colors.lime[400], "subject":"Mathematics"},
+  {"navigation":PhysicsHome(), "icon":Icons.science_rounded, "color":Colors.blue[400], "subject":"Chemistry"},
+  {"navigation":PhysicsHome(), "icon":Icons.biotech_rounded, "color":Colors.green[300], "subject":"Biology"}
 ];
+
+List playgroundCards = [{"navigation":PlayGroundChapter(), "icon":Icons.play_arrow, "color":Colors.red[200], "chapter":"Chapter-2", "topic":"Pendulum", "subject":"Pendulum"},
+  {"navigation":MathigonChapter(), "icon":Icons.airplay_sharp, "color":Colors.green[200], "chapter":"Chapter-1", "topic":"Mathigon", "subject":"Mathigon"}];
 
 TextStyle welcomeTextStyle_1 = const TextStyle(
   color: Colors.white,
@@ -95,11 +103,21 @@ class HomePage extends StatelessWidget {
                     padding: EdgeInsets.all(2*rowPadding),
                     child: Row(
                       children: [
+                        Text("Play Grounds", style: rowTitleStyle,)
+                      ],
+                    ),
+                  ),
+                  PlayGroundRow(),
+                  Padding(
+                    padding: EdgeInsets.all(2*rowPadding),
+                    child: Row(
+                      children: [
                         Text("Courses", style: rowTitleStyle,)
                       ],
                     ),
                   ),
                   CoursesRow(),
+                  SizedBox(height: 20)
 
                 ],
               )
@@ -134,7 +152,7 @@ class WelcomeTextRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Hello, Krishna", style: welcomeTextStyle_1),
+                  Text("Hello, Learner", style: welcomeTextStyle_1),
                   const SizedBox(height: 20,),
                   Text("Welcome,\nLet's Start Learning !", style: welcomeTextStyle_2),
                   const SizedBox(height: 20,),
@@ -185,8 +203,6 @@ class RecommendedTopicsRow extends StatefulWidget {
 
 class _RecommendedTopicsRowState extends State<RecommendedTopicsRow> {
 
-  int _index = 1;
-
   @override
   Widget build(BuildContext context) {
 
@@ -208,7 +224,9 @@ class _RecommendedTopicsRowState extends State<RecommendedTopicsRow> {
             items: topicCards.map<Widget>((topicCard) {
               return Builder(
                 builder: (BuildContext context) {
-                  return Card(
+                  return  GestureDetector(
+                      onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> topicCard['navigation']));},
+                  child:Card(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))
                     ),
@@ -231,7 +249,7 @@ class _RecommendedTopicsRowState extends State<RecommendedTopicsRow> {
                         ],
                       ),
                     ),
-                  );
+                  ));
                 },
               );
             }).toList(),
@@ -255,19 +273,19 @@ class _CoursesRowState extends State<CoursesRow> {
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: EdgeInsets.all(rowPadding),
+      padding: EdgeInsets.fromLTRB(rowPadding, rowPadding, rowPadding, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width - 2* rowPadding,
-            height: 400,
+            height: 350,
             child: GridView.count(crossAxisCount: 2,crossAxisSpacing: 4.0,
         mainAxisSpacing: 2.0, childAspectRatio: 1.5, physics: const NeverScrollableScrollPhysics(),
         children: List.generate(courseCards.length, (index) {
             return GestureDetector(
-              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> courseCards[index]['chapter_page']));},
+              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> courseCards[index]['navigation']));},
               child: Card(
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))
@@ -278,12 +296,15 @@ class _CoursesRowState extends State<CoursesRow> {
                       borderRadius: const BorderRadius.all(Radius.circular(20))
                   ),
                   child: Column(
+                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(courseCards[index]['subject'], style: courseTextStyle),
                       Divider(thickness: 1, color: Colors.grey[100],),
-                      Icon(courseCards[index]['icon'],
-                        size: 70, color: Colors.white,),
+                      Expanded(
+                        child: Icon(courseCards[index]['icon'],
+                          size: 70, color: Colors.white,),
+                      ),
                     ],
                   ),
                 )
@@ -295,6 +316,70 @@ class _CoursesRowState extends State<CoursesRow> {
           )
         ],
       ),
+    );
+  }
+}
+
+class PlayGroundRow extends StatefulWidget {
+  const PlayGroundRow({super.key});
+
+  @override
+  State<PlayGroundRow> createState() => _PlayGroundRowState();
+}
+
+class _PlayGroundRowState extends State<PlayGroundRow> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                viewportFraction: 0.5,
+                aspectRatio: 0.2,
+                enlargeCenterPage: true,
+                onPageChanged: (position,reason){  },
+                enableInfiniteScroll: true,
+              ),
+              items: playgroundCards.map<Widget>((playgroundCard) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return  GestureDetector(
+                        onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> playgroundCard['navigation']));},
+                        child:Card(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(contentPaddding,contentPaddding,contentPaddding,0),
+                            child: Column(
+                              children: [
+                                Text(playgroundCard['topic'], style: cardTitleStyle(color: playgroundCard['color'])),
+                                Divider(thickness: 2, color: Colors.teal[200]),
+                                Icon(playgroundCard['icon'],
+                                  size: 80, color: playgroundCard['color'],),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(playgroundCard['chapter'], style: chapterFooterStyle),
+                                    Text(playgroundCard['subject'], style: subjectFooterStyle)
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ));
+                  },
+                );
+              }).toList(),
+            )
+        ),
+      ],
     );
   }
 }

@@ -23,7 +23,7 @@ List chapterTiles = [
   {"id":"4", "title":"Definition Cards", "subtitle": "Revision", "navigation":DefinitionsChapterContent()},
   {"id":"5", "title":"Take Quiz", "subtitle": "Quiz", "navigation":QuizChapterContent()},
   {"id":"6", "title":"Play Ground", "subtitle": "Pendulum Play-Ground", "navigation":PlayGroundChapter()},
-  {"id":"6", "title":"Mathigon", "subtitle": "Integrated Play-Ground", "navigation":MathigonChapter()},
+  {"id":"7", "title":"Mathigon", "subtitle": "Integrated Play-Ground", "navigation":MathigonChapter()},
 ];
 
 class PhysicsHome extends StatelessWidget {

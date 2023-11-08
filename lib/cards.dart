@@ -15,13 +15,13 @@ Card types:
 7. DefinitionCards: Multiple cards to explain definition well
  */
 
-double pageFont = 17.5;
+double pageFont = 16.5;
 double headingFont = 21.0;
 double cardPadding = 10.0;
 double letterSpacing = 0;
-double wordSpacing = 4.7;
+double wordSpacing = 5;
 
-String textCardFontFamily = "EXo2";
+String textCardFontFamily = "Lato";
 String quizCardFontFamily = "EXo2";
 
 var submitBGColor = Colors.amber[50];

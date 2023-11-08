@@ -9,13 +9,15 @@ class MathigonChapter extends StatelessWidget {
     return Center(
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: Colors.blue[500],
-          foregroundColor: Colors.white,
+          backgroundColor: Colors.blue[100],
+          foregroundColor: Colors.black,
         ),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context)=> MathigonWebView()));
         },
-        child: const Text("Mathigon Page"),
+        child: const Text("   Play Area 1: Triangles   ", style: TextStyle(
+          fontSize: 20,
+        ),),
       ),
     );
   }
