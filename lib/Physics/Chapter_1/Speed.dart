@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:IS/build_chapter_content.dart';
+import 'package:IS/BuildChapterContent.dart';
  
-import 'card_content.dart';
+import '../../CardContentSchema.dart';
 
 
 Map imageIds = {

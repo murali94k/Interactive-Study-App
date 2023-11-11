@@ -1,42 +1,31 @@
 import 'package:flutter/material.dart';
 
-import 'Motion.dart';
-import 'Time.dart';
-import 'Definitions.dart';
-import 'Quiz.dart';
-import 'Speed.dart';
-import 'PendulumSwing.dart';
-import 'Matigon.dart';
+import 'Chapter_1/ChapterHome.dart';
 
 double rowPadding = 30;
+var pageColor = Colors.blue[200];
 
 TextStyle chapterName = const TextStyle(
-  color: Colors.white,
+  color: Colors.black,
   fontFamily: "Lato",
   fontSize: 18,
 );
 
 List chapterTiles = [
-  {"id":"1", "title":"Measure Time", "subtitle": "Chapter-1", "navigation":TimeChapterContent()},
-  {"id":"2", "title":"Motion of Objects", "subtitle": "Chapter-2", "navigation":MotionChapterContent()},
-  {"id":"3", "title":"Motion And Speed", "subtitle": "Chapter-3", "navigation":SpeedChapterContent()},
-  {"id":"4", "title":"Definition Cards", "subtitle": "Revision", "navigation":DefinitionsChapterContent()},
-  {"id":"5", "title":"Take Quiz", "subtitle": "Quiz", "navigation":QuizChapterContent()},
-  {"id":"6", "title":"Play Ground", "subtitle": "Pendulum Play-Ground", "navigation":PlayGroundChapter()},
-  {"id":"7", "title":"Mathigon", "subtitle": "Integrated Play-Ground", "navigation":MathigonChapter()},
+  {"id":"1", "title":"Real Numbers", "subtitle": "Chapter-1", "navigation":ChapterHomeOne()},
 ];
 
-class PhysicsHome extends StatelessWidget {
-  const PhysicsHome({super.key});
+class MathsHome extends StatelessWidget {
+  const MathsHome({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xE1065D44),
+        backgroundColor: pageColor,
         centerTitle: true,
-        title: const Text("Physics", style: TextStyle(
-                          color: Colors.white,
+        title: const Text("Mathematics", style: TextStyle(
+                          color: Colors.black,
                           fontFamily: "Lato",
                           fontSize: 20,))),
       body: Column(
@@ -66,10 +55,10 @@ class PhysicsBanner extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Text("Chapters", style: TextStyle(
+          Text("Chapters", style: TextStyle(
             fontSize: 23,
             fontFamily: "Lato",
-            color: Colors.black,
+            color: pageColor,
             fontWeight: FontWeight.bold
           )),
           Text("Class X   |   NCRT", style: TextStyle(
@@ -102,7 +91,7 @@ class _ChapterListState extends State<ChapterList> {
           onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context)=> chapterTiles[index]['navigation']));},
           title: Text(chapterTiles[index]['title']),
           subtitle: Text(chapterTiles[index]["subtitle"]),
-          leading: CircleAvatar(backgroundColor: Colors.teal[700],child: Text(chapterTiles[index]["id"], style: chapterName),),
+          leading: CircleAvatar(backgroundColor: pageColor,child: Text(chapterTiles[index]["id"], style: chapterName),),
         );
       },
     );

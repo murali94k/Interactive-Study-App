@@ -250,6 +250,7 @@ class _TextCardState extends State<TextCard> {
         child: Container(
           color: Colors.white,
           margin: const EdgeInsets.all(10.0),
+          child: Text(widget.cardContent.text,
           child: Text(widget.cardContent.text,style: TextStyle(fontSize: pageFont, fontFamily: textCardFontFamily,  letterSpacing: letterSpacing, wordSpacing: wordSpacing)),
         ));
   }

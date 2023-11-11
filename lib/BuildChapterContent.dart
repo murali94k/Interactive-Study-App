@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'card_content.dart';
-import 'cards.dart';
+import 'CardContentSchema.dart';
+import 'Cards.dart';
 
 class BuildChapterContent extends StatefulWidget {
   const BuildChapterContent({super.key, required this.title, required this.topic, required this.cardContents,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:IS/PhysicsHomePage.dart';
 
-import 'Motion.dart';
-import 'Speed.dart';
-import 'PendulumSwing.dart';
-import 'Matigon.dart';
+import 'Physics/PhysicsHomePage.dart';
+import 'Maths/MathsHomePage.dart';
+
+import 'Physics/Chapter_1/Motion.dart';
+import 'Physics/Chapter_1/Speed.dart';
+import 'PlayGround/PendulumSwing.dart';
+import 'PlayGround/Matigon.dart';
 
 double rowPadding = 10;
 double contentPaddding = 20;
@@ -16,7 +18,7 @@ List topicCards = [{"topic":"Speed", "navigation":SpeedChapterContent() ,"icon":
 ];
 
 List courseCards = [{"navigation":PhysicsHome(), "icon":Icons.tips_and_updates_outlined, "color":Colors.pinkAccent[100], "subject":"Physics"},
-  {"navigation":PhysicsHome(), "icon":Icons.category_rounded, "color":Colors.lime[400], "subject":"Mathematics"},
+  {"navigation":MathsHome(), "icon":Icons.category_rounded, "color":Colors.lime[400], "subject":"Mathematics"},
   {"navigation":PhysicsHome(), "icon":Icons.science_rounded, "color":Colors.blue[400], "subject":"Chemistry"},
   {"navigation":PhysicsHome(), "icon":Icons.biotech_rounded, "color":Colors.green[300], "subject":"Biology"}
 ];
